@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.13)
+# set(CMAKE_VERBOSE_MAKEFILE_ON)
+set(CMAKE_DISABLE_SOURCE_CHANGES ON)
+set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
+project(lolwtf)
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+	message(SEND_ERROR "In-Source building is disabled.")
+endif()
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GTKMM REQUIRED gtkmm-3.0)
+set(SOURCE
+	gui/lolwtf.cpp
+)
+include_directories(${GTKMM_INCLUDE_DIRS})
+link_directories(${GTKMM_LIBRARY_DIRS})
+add_definitions(${GTKMM_CFLAGS_OTHER})
+add_executable(lolwtf ${SOURCE})
+target_link_libraries(lolwtf ${GTKMM_LIBRARIES})
